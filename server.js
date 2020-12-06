@@ -13,7 +13,7 @@ const cookie = require("cookie");
 const ver_tok = require('./verify_token');
 const datastore = new Datastore();
 
-const BOATS = "BOATS_V5"; const LOADS = "LOADS_V5"; const USERS = "USERS_V5"; const base_url = "http://localhost:8080"
+const BOATS = "BOATS_V7"; const LOADS = "LOADS_V7"; const USERS = "USERS_V7"; const base_url = "http://localhost:8080"
 
 const router = express.Router();
 app.use(bodyParser.json());
@@ -53,7 +53,7 @@ function put_load(bid, lid) {
     })
 }
 
-function delete_load(id, username) { //dont forget to check if the user is allowed to remove it
+function delete_load(id, username) {
     const q = datastore.createQuery(LOADS).filter("__key__", "=", datastore.key([LOADS, parseInt(id,10)]));
 	return datastore.runQuery(q).then( (entities) => {
         if(!Array.isArray(entities[0]) || !entities[0].length) { return "n_lid" }
@@ -149,8 +149,11 @@ function get_boats_auth(username){
 }
 
 function get_owner_id(username) {
+    console.log(username)
     const q = datastore.createQuery(BOATS).filter('username', "=", username).filter('public', '=', false);
 	return datastore.runQuery(q).then( (entities) => {
+        if(!Array.isArray(entities[0]) || !entities[0].length) { return "n_user" }
+
 			return entities[0].map(fromDatastore);
 	});
 }
@@ -225,8 +228,16 @@ router.get('/owners/:username/boats',ver_tok, function(req, res){ //get all rest
     }
 
     if(req.username != undefined) {
+
+        if(req.params.username != req.username) {
+            return res.status(401).send({"Error": "you do not match the specified account"})
+        }
+
         get_owner_id(req.params.username)
         .then( (results) => {
+            if(results == "n_user") {
+                return res.status(401).send({"Error": "you are not allowed to view the boats"})
+            }
             return res.status(200).json(results);
         });
     }
@@ -248,7 +259,7 @@ router.get('/boats/:id',ver_tok, function(req, res){ //get one boat either restr
                 return res.status(404).json({"Error": "boat id does not exist"})
             }
             if(results == "n_user") {
-                return res.status(404).json({"Error": "you do not have permission to view this boat"})
+                return res.status(401).json({"Error": "you do not have permission to view this boat"})
             }
             return res.status(200).json(results);
         });
@@ -270,6 +281,10 @@ router.get('/boats/:id',ver_tok, function(req, res){ //get one boat either restr
 router.post('/boats',ver_tok, function(req, res){ //add a post (jwt MUST exist)
     if (!req.is('application/json')) {
         return res.status(406).send({"Error": "please send valid json data"});
+    }
+
+    if(req.body.name == undefined || req.body.type == undefined || req.body.length == undefined || req.body.public == undefined) {
+        return res.status(405).send({"Error": "malformed json data request not accepted"});
     }
 
     if(req.username != undefined) {
@@ -310,6 +325,10 @@ router.delete('/boats/:id',ver_tok, function(req, res) { //delete a boat (must b
 router.post('/loads',ver_tok, function(req, res) { //post a load (just have jwt)
     if (!req.is('application/json')) {
         return res.status(406).send({"Error": "please send valid json data"});
+    }
+
+    if(req.body.weight == undefined || req.body.content == undefined || req.body.date == undefined) {
+        return res.status(405).send({"Error": "malformed json data request not accepted"});
     }
 
     if(req.username != undefined) {
@@ -453,7 +472,7 @@ router.get('/welcome', function(req, res){ //sign up using google api (can sign 
             })
 
             const jtok = jwt.sign({"user": username}, "secret", {expiresIn: "24h"});
-            res.setHeader('Set-Cookie', cookie.serialize('Authorization', `Bearer ${jtok}`, { httpOnly: true, /*maxAge: now,*/ sameSite: "strict"}));
+            res.setHeader('Set-Cookie', cookie.serialize('Authorization', `Bearer ${jtok}`, { httpOnly: false, /*maxAge: now,*/ sameSite: "strict"}));
             res.status(200).send(
               `
               <!DOCTYPE html>
@@ -475,13 +494,13 @@ router.get('/welcome', function(req, res){ //sign up using google api (can sign 
     })
 })
 
-router.get('/*', function(req, res){ //
-    res.status(405).send({"Error": "Method is not allowed"})
-})
-
 router.get('/', function(req, res){ //url to login
     res.send(`<a href="` + g_url + `">Login to Google!</a>`)
 })
+
+router.get('*', function(req, res){
+    res.status(405).send({"Error": "Method is not allowed"})
+  });
 
 app.use('/', router);
 
