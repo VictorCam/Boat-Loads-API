@@ -13,12 +13,12 @@ const cookie = require("cookie");
 const ver_tok = require('./verify_token');
 const datastore = new Datastore();
 
-const BOATS = "BOATS_V7"; const LOADS = "LOADS_V7"; const USERS = "USERS_V7"; const base_url = "http://localhost:8080"
+const BOATS = "BOATS_V7"; const LOADS = "LOADS_V7"; const USERS = "USERS_V7"; const base_url = "http://final15.appspot.com"
 
 const router = express.Router();
 app.use(bodyParser.json());
 function fromDatastore(item){ item.id = item[Datastore.KEY].id; return item; }
-const oauth2Client = new google.auth.OAuth2( "48740089759-9n5kiuc6ohhobrhnj6hns9qjshhgf9vl.apps.googleusercontent.com", "z4j-KU3U0iqvsNoMGQVwYWfa", "http://localhost:8080/welcome" );
+const oauth2Client = new google.auth.OAuth2( "806287601065-53phfnigkr4vinqutil046affqo9l5kf.apps.googleusercontent.com", "rbwT3yf7Kw4qjbBdzw5YN1Uz", "http://final15.appspot.com/welcome" );
 const scopes = ['https://www.googleapis.com/auth/userinfo.profile'];
 var g_url = oauth2Client.generateAuthUrl({ access_type: 'offline', scope: scopes });
 
