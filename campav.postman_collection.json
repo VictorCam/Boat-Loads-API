@@ -1,0 +1,1314 @@
+{
+	"info": {
+		"_postman_id": "242c6e3f-79bd-447b-bd30-e58840c03b04",
+		"name": "final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "add boat public(true)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e3efe2a-a7f5-4594-9f34-54d0f1405535",
+						"exec": [
+							"pm.environment.set(\"public_bid\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 response\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Awesome_Pub\",\r\n  \"type\": \"Yatch\",\r\n  \"length\": 99,\r\n  \"public\": true\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add boat public(false)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2d1638bc-3bf1-48b4-af97-439f3abaf02e",
+						"exec": [
+							"pm.environment.set(\"private_bid\", pm.response.json()[\"id\"]);\r",
+							"pm.environment.set(\"username\", pm.response.json()[\"username\"]);\r",
+							"\r",
+							"pm.test(\"201 response\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"CoolPrivate\",\r\n  \"type\": \"Yatch\",\r\n  \"length\": 99,\r\n  \"public\": false\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add boat public (bad json format)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39d2fd64-42e5-456c-a797-f0ffaf37887c",
+						"exec": [
+							"pm.test(\"405 response\", function(){\r",
+							"    pm.response.to.have.status(405);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"CoolPrivate\",\r\n  \"type\": \"Yatch\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add a load",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "11f71c07-44bc-4a50-9e86-8e942ff2cf97",
+						"exec": [
+							"pm.environment.set(\"lid\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 response\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"weight\": \"10\",\r\n  \"content\": \"Legos\",\r\n  \"date\": \"10/10/10\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/loads",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add a load (bad json format)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59510e62-1a0d-4a0e-84ce-56ac001f4039",
+						"exec": [
+							"pm.test(\"405 response\", function(){\r",
+							"    pm.response.to.have.status(405);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"weight\": \"10\",\r\n  \"content\": \"Legos\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/loads",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign boat to load",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a5a77a6c-f76e-41d1-8ab1-62ee12aabb85",
+						"exec": [
+							"pm.test(\"204 response\", function(){\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"weight\": \"10\",\r\n  \"content\": \"Legos\",\r\n  \"date\": \"10/10/10\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/boats/{{public_bid}}/loads/{{lid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats",
+						"{{public_bid}}",
+						"loads",
+						"{{lid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign boat to load (already assigned)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "488bd294-0e24-4a34-9048-9926fad17a73",
+						"exec": [
+							"pm.test(\"403 response\", function(){\r",
+							"    pm.response.to.have.status(403);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"weight\": \"10\",\r\n  \"content\": \"Legos\",\r\n  \"date\": \"10/10/10\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/boats/{{public_bid}}/loads/{{lid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats",
+						"{{public_bid}}",
+						"loads",
+						"{{lid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one priv boat (with jwt)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2406795f-00d5-4542-9c13-39a256aa5142",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/boats/{{private_bid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats",
+						"{{private_bid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get valid owner (all priv boats)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ca738ce-7528-43f1-8a5e-964b574b6d15",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/owners/{{username}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"owners",
+						"{{username}}",
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get other owner (all priv boats)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3980d7ae-63a4-4e0d-9c0a-5ed9d5d4948d",
+						"exec": [
+							"pm.test(\"401 response\", function(){\r",
+							"    pm.response.to.have.status(401);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt2}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/owners/{{username}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"owners",
+						"{{username}}",
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get other owner (all priv boats) invalid url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "003daf2a-d73c-4adb-934f-706b1097d065",
+						"exec": [
+							"pm.test(\"405 response\", function(){\r",
+							"    pm.response.to.have.status(405);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt2}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/owners//boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"owners",
+						"",
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all boats (with jwt)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5812441-a11d-40f9-a978-5cd8a8f54d94",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all boats (no jwt)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f504e35e-7e98-40be-8e71-78464cc84764",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all boats (bad jwt)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5fa0f13c-5ebd-4368-8fb9-41c8a58cdcea",
+						"exec": [
+							"pm.test(\"401 response\", function(){\r",
+							"    pm.response.to.have.status(401);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{bad_jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one load",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d42cf5ef-e2ea-4728-a6f9-efb41571a411",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/loads/{{lid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads",
+						"{{lid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a boat (WRONG USER disassociates loads but does not delete loads)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7ee3de86-4247-499b-b840-99fa743aac5d",
+						"exec": [
+							"pm.test(\"403 response\", function(){\r",
+							"    pm.response.to.have.status(403);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt2}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/boats/{{public_bid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats",
+						"{{public_bid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a boat (disassociates loads but does not delete loads)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd8e82a9-395b-40ca-90f1-d706607615bc",
+						"exec": [
+							"pm.test(\"204 response\", function(){\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/boats/{{public_bid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats",
+						"{{public_bid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one load (disassociate load)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ede8c17f-30dc-440c-a82f-54e406d49cfa",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/loads/{{lid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads",
+						"{{lid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one boat (does not exist now)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e96bc2b-3937-41c6-87c4-7c08de990741",
+						"exec": [
+							"pm.test(\"404 response\", function(){\r",
+							"    pm.response.to.have.status(404);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/boats/{{public_bid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats",
+						"{{public_bid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a load (BAD USER disassociates boats but does not delete boats)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1e2569f2-7661-431f-b50d-4abcec972210",
+						"exec": [
+							"pm.test(\"401 response\", function(){\r",
+							"    pm.response.to.have.status(401);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{bad_jwt}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/loads/{{lid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads",
+						"{{lid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a load (disassociates boats but does not delete boats)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "66431128-194c-4f1a-80a4-6db07f0a1ae3",
+						"exec": [
+							"pm.test(\"204 response\", function(){\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/loads/{{lid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads",
+						"{{lid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one load (does not exist)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ef00c50-9260-471b-93c8-0eb9a89b493e",
+						"exec": [
+							"pm.test(\"404 response\", function(){\r",
+							"    pm.response.to.have.status(404);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/loads/{{lid}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads",
+						"{{lid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add a load",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2e31ea1-e2fa-47f1-bc12-ae470080e412",
+						"exec": [
+							"pm.environment.set(\"lid\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 response\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"weight\": \"10\",\r\n  \"content\": \"Legos\",\r\n  \"date\": \"10/10/10\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/loads",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add a load but not right content-type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "31a6cc57-e83f-4b1b-a273-2366c736468a",
+						"exec": [
+							"pm.test(\"406 response\", function(){\r",
+							"    pm.response.to.have.status(406);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/html"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"weight\": \"10\",\r\n  \"content\": \"Legos\",\r\n  \"date\": \"10/10/10\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/loads",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add boat but no right content-type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07ced590-5817-44cd-821a-50401d8bbd5a",
+						"exec": [
+							"pm.test(\"406 response\", function(){\r",
+							"    pm.response.to.have.status(406);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Awesome_Pub\",\r\n  \"type\": \"Yatch\",\r\n  \"length\": 99,\r\n  \"public\": true\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/boats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all loads",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa28bc4a-6f38-4f1a-981f-10cc93c2f0c2",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/loads",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all boats (pagination)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c167387f-d8bd-434e-a2c9-9e8f907bdde0",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/boats?page=1&limit=5",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"boats"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all loads (pagination)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ccb6c9f3-e746-4c17-bafd-c24839184352",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/loads?page=1&limit=5",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"loads"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "malformed request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b2945af0-ffbe-453a-821c-840b0e541336",
+						"exec": [
+							"pm.test(\"405 response\", function(){\r",
+							"    pm.response.to.have.status(405);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/please/be/a/awesome/lenient/grader",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"please",
+						"be",
+						"a",
+						"awesome",
+						"lenient",
+						"grader"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0efb47e7-3e17-430a-b6a7-fa93795f345d",
+						"exec": [
+							"pm.test(\"200 response\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
